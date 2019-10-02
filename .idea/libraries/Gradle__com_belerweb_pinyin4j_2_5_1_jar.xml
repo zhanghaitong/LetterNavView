@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.belerweb:pinyin4j:2.5.1@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.belerweb/pinyin4j/2.5.1/ea23babfc45a078af5b73cd9f3401caad1f1b2a9/pinyin4j-2.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.belerweb/pinyin4j/2.5.1/2115f39e62d35d08e665b8ab95f4f6ffc8ab8d40/pinyin4j-2.5.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.belerweb/pinyin4j/2.5.1/86556595b130df25f149df1400f9832b7bda3c9f/pinyin4j-2.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

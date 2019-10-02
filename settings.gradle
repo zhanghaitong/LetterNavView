@@ -1,0 +1,2 @@
+include ':app', ':letter_nav_view'
+rootProject.name='LetterNavViewDemo'

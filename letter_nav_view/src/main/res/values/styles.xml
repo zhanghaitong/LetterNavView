@@ -1,0 +1,16 @@
+<resources>
+
+    <declare-styleable name="LetterNavView">
+        <attr name="navTvTextSize" format="dimension" />
+        <attr name="navTvTextSelectedSize" format="dimension" />
+        <attr name="navTvTextColor" format="color" />
+        <attr name="navTvTextSelectedColor" format="color" />
+        <attr name="navBgColor" format="color" />
+        <attr name="navBgActiveColor" format="color" />
+        <attr name="navPaddingLeft" format="dimension" />
+        <attr name="navPaddingRight" format="dimension" />
+        <attr name="navPaddingTop" format="dimension" />
+        <attr name="navPaddingBottom" format="dimension" />
+    </declare-styleable>
+
+</resources>
