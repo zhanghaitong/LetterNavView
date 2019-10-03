@@ -11,6 +11,11 @@
         <attr name="navPaddingRight" format="dimension" />
         <attr name="navPaddingTop" format="dimension" />
         <attr name="navPaddingBottom" format="dimension" />
+        <attr name="overlyTvWidth" format="dimension" />
+        <attr name="overlyTvHeight" format="dimension" />
+        <attr name="overlyTextSize" format="dimension" />
+        <attr name="overlyTextColor" format="color" />
+        <attr name="overlyBgColor" format="color" />
     </declare-styleable>
 
 </resources>

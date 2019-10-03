@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:background="@android:color/white"
+    android:padding="0dp"
+    tools:context=".activity.MainActivity">
+
+    <com.haitong.letternavview.view.LetterNavView
+        android:id="@+id/letter_container"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        app:navTvTextColor="#40000000" />
+
+</RelativeLayout>

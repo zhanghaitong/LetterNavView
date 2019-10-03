@@ -4,13 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@android:color/white"
+    tools:context=".MainActivityAll">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AAA"
+        android:textSize="12sp" />
 
     <com.haitong.letternavview.view.LetterNavView
         android:id="@+id/letter_container"
-        android:layout_width="25dp"
+        android:layout_width="22dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        app:navTvTextColor="#40000000" />
+        app:navPaddingBottom="30dp"
+        app:navPaddingTop="30dp"
+        app:overlyTextSize="12sp" />
 
 </RelativeLayout>

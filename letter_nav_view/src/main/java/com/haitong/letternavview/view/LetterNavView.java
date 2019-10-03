@@ -17,15 +17,18 @@ import android.widget.TextView;
 import com.haitong.letternavview.R;
 import com.haitong.letternavview.utils.DensityUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by next on 2016/3/24.
+ * Created by zhhaitong on 2019/9/29.
  */
 public class LetterNavView extends View {
 
     private static final String TAG = "LetterNavView";
 
-    private float navTvTextSize;
+    private int navTvTextSize;
     private float navTvTextSelectedSize;
     private int navTvTextColor;
     private int navTvTextSelectedColor;
@@ -35,49 +38,68 @@ public class LetterNavView extends View {
     private float navPaddingRight;
     private float navPaddingTop;
     private float navPaddingBottom;
+    private float overlyTvWidth;
+    private float overlyTvHeight;
+    private int overlyTextSize;
+    private int overlyTextColor;
+    private int overlyBgColor;
 
     private Context mContext;
 
-    private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
-    private String[] navTextArray = {"定位", "热门", "最近", "全部", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
-            "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
+    private LetterChangeListener onTouchingLetterChangedListener;
+    private List<String> textList = new ArrayList<>();
+    private List<String> topList = new ArrayList<>();
+    private List<String> bottomList = new ArrayList<>();
+
+    private static final List<String> letterList = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
+            "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
     int activedIndex = -1;
-    private Paint paint = new Paint();
-    private boolean navActive = false;
+    private Paint mPaint = new Paint();
+    private boolean mNavActive = false;
     private TextView tvLetterOverlay;
 
     public LetterNavView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.mContext = context;
+        init();
     }
 
     public LetterNavView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
+        init();
 
         Log.d(TAG, "LetterNavView() called with: context = [" + context + "], attrs = [" + attrs + "]");
 
         //加载自定义的属性
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LetterNavView);
-        navTvTextSize = a.getDimension(R.styleable.LetterNavView_navTvTextSize, DensityUtil.sp2px(context, 10));
-        navTvTextSelectedSize = a.getDimension(R.styleable.LetterNavView_navTvTextSelectedSize, DensityUtil.sp2px(context, 10));
-        navTvTextColor = a.getColor(R.styleable.LetterNavView_navTvTextColor, Color.parseColor("#8c8c8c"));
-        navTvTextSelectedColor = a.getColor(R.styleable.LetterNavView_navTvTextSelectedColor, Color.parseColor("#40c60a"));
-        navBgColor = a.getColor(R.styleable.LetterNavView_navBgColor, Color.TRANSPARENT);
-        navBgActiveColor = a.getColor(R.styleable.LetterNavView_navBgActiveColor, Color.parseColor("#40000000"));
-        navPaddingLeft = a.getDimension(R.styleable.LetterNavView_navPaddingLeft, 0);
-        navPaddingRight = a.getDimension(R.styleable.LetterNavView_navPaddingRight, 0);
-        navPaddingTop = a.getDimension(R.styleable.LetterNavView_navPaddingTop, 10);
-        navPaddingBottom = a.getDimension(R.styleable.LetterNavView_navPaddingBottom, 10);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LetterNavView);
+        navTvTextSize = typedArray.getDimensionPixelSize(R.styleable.LetterNavView_navTvTextSize, DensityUtil.sp2px(context, 10));
+        navTvTextSelectedSize = typedArray.getDimension(R.styleable.LetterNavView_navTvTextSelectedSize, DensityUtil.sp2px(context, 10));
+        navTvTextColor = typedArray.getColor(R.styleable.LetterNavView_navTvTextColor, Color.parseColor("#8c8c8c"));
+        navTvTextSelectedColor = typedArray.getColor(R.styleable.LetterNavView_navTvTextSelectedColor, Color.parseColor("#40c60a"));
+        navBgColor = typedArray.getColor(R.styleable.LetterNavView_navBgColor, Color.TRANSPARENT);
+        navBgActiveColor = typedArray.getColor(R.styleable.LetterNavView_navBgActiveColor, Color.parseColor("#40000000"));
+        navPaddingLeft = typedArray.getDimension(R.styleable.LetterNavView_navPaddingLeft, 0);
+        navPaddingRight = typedArray.getDimension(R.styleable.LetterNavView_navPaddingRight, 0);
+        navPaddingTop = typedArray.getDimension(R.styleable.LetterNavView_navPaddingTop, DensityUtil.dp2px(context, 10));
+        navPaddingBottom = typedArray.getDimension(R.styleable.LetterNavView_navPaddingBottom, DensityUtil.dp2px(context, 10));
+        overlyTvWidth = typedArray.getDimension(R.styleable.LetterNavView_overlyTvWidth, DensityUtil.dp2px(context, 65));
+        overlyTvHeight = typedArray.getDimension(R.styleable.LetterNavView_overlyTvHeight, DensityUtil.dp2px(context, 65));
+        overlyTextSize = typedArray.getDimensionPixelSize(R.styleable.LetterNavView_overlyTextSize, 12);
+        overlyTextColor = typedArray.getColor(R.styleable.LetterNavView_overlyTextColor, Color.WHITE);
+        overlyBgColor = typedArray.getColor(R.styleable.LetterNavView_overlyBgColor, Color.parseColor("#83000000"));
 
         LayoutInflater inflater = LayoutInflater.from(context);
         tvLetterOverlay = (TextView) inflater.inflate(R.layout.v_letter_overlay, null);
         tvLetterOverlay.setVisibility(View.INVISIBLE);
 
-        int width = DensityUtil.dp2px(context, 65);
+        tvLetterOverlay.setTextSize(overlyTextSize);
+        tvLetterOverlay.setTextColor(overlyTextColor);
+        tvLetterOverlay.setBackgroundColor(overlyBgColor);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
-                width, width,
+                (int) overlyTvWidth,
+                (int) overlyTvHeight,
                 WindowManager.LayoutParams.TYPE_APPLICATION,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -88,23 +110,45 @@ public class LetterNavView extends View {
 
         setPadding((int) navPaddingLeft, (int) navPaddingTop, (int) navPaddingRight, (int) navPaddingBottom);
 
-        //回收资源，这一句必须调用
-        a.recycle();
+        typedArray.recycle();
     }
 
     public LetterNavView(Context context) {
         super(context);
         this.mContext = context;
+        init();
+    }
+
+    private void init() {
+
+        textList.clear();
+
+        textList.addAll(topList);
+        textList.addAll(letterList);
+        textList.addAll(bottomList);
+    }
+
+    public void setNavTopTextList(List<String> navTopTextArray) {
+        this.topList.clear();
+        this.topList.addAll(navTopTextArray);
+        init();
+        invalidate();
+    }
+
+    public void setNavBottomTextList(List<String> navBottomTextArray) {
+        this.bottomList.clear();
+        this.bottomList.addAll(navBottomTextArray);
+        init();
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.d(TAG, "onDraw() called with: canvas = [" + canvas + "]");
         super.onDraw(canvas);
 
         canvas.drawColor(navBgColor);
 
-        if (navActive) {
+        if (mNavActive) {
             canvas.drawColor(navBgActiveColor);
         }
         int paddingLeft = getPaddingLeft();
@@ -114,22 +158,26 @@ public class LetterNavView extends View {
 
         int width = getWidth() - paddingLeft - paddingRight;
         int height = getHeight() - paddingBottom - paddingTop;
-        int singleHeight = (height - paddingTop - paddingBottom) / navTextArray.length;
-        for (int i = 0; i < navTextArray.length; i++) {
-            paint.setColor(navTvTextColor);
-            paint.setTextSize(navTvTextSize);
-//            paint.setTypeface(Typeface.DEFAULT_BOLD);
-            paint.setAntiAlias(true);
-            if (i == activedIndex) {
-                paint.setColor(navTvTextSelectedColor);
-                paint.setTextSize(navTvTextSelectedSize);
-//                paint.setFakeBoldText(true);
-            }
-            float xPos = width / 2 - paint.measureText(navTextArray[i]) / 2;
-            float yPos = paddingTop + singleHeight * i + singleHeight;
 
-            canvas.drawText(navTextArray[i], xPos, yPos, paint);
-            paint.reset();
+        int singleHeight = height / textList.size();
+
+        mPaint.setColor(navTvTextColor);
+        mPaint.setTextSize(navTvTextSize);
+        float tmpHeight = mPaint.measureText("K") / 2;
+        for (int i = 0; i < textList.size(); i++) {
+            if (i == activedIndex) {
+                mPaint.setColor(navTvTextSelectedColor);
+                mPaint.setTextSize(navTvTextSelectedSize);
+            } else {
+                mPaint.setColor(navTvTextColor);
+                mPaint.setTextSize(navTvTextSize);
+            }
+
+            float x = (width >> 1) - mPaint.measureText(textList.get(i)) / 2;
+            float y = paddingTop + singleHeight * i + singleHeight - tmpHeight;
+
+            canvas.drawText(textList.get(i), x, y, mPaint);
+            mPaint.reset();
         }
     }
 
@@ -137,36 +185,36 @@ public class LetterNavView extends View {
     public boolean dispatchTouchEvent(MotionEvent event) {
         final int action = event.getAction();
         final float y = event.getY();
-        final int oldChoose = activedIndex;
-        final OnTouchingLetterChangedListener listener = onTouchingLetterChangedListener;
-        final int c = (int) ((y - getPaddingTop()) / (getHeight() - getPaddingTop() - getPaddingBottom()) * navTextArray.length);
+        final int oldChooseIndex = activedIndex;
+        int choosedIndex = (int) ((y - getPaddingTop()) / (getHeight() - getPaddingTop() - getPaddingBottom()) * textList.size());
+        choosedIndex = choosedIndex < 0 ? 0 : choosedIndex;
+        choosedIndex = choosedIndex >= textList.size() ? textList.size() - 1 : choosedIndex;
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                navActive = true;
+                mNavActive = true;
                 tvLetterOverlay.setVisibility(VISIBLE);
-                if (oldChoose != c && listener != null) {
-                    if (c >= 0 && c < navTextArray.length) {
-                        listener.onTouchingLetterChanged(navTextArray[c]);
-                        activedIndex = c;
+
+                if (oldChooseIndex != choosedIndex && onTouchingLetterChangedListener != null) {
+                    if (choosedIndex >= 0 && choosedIndex < textList.size()) {
+                        activedIndex = choosedIndex;
                         refreshTv();
                         invalidate();
+                        onTouchingLetterChangedListener.onTouchingLetterChanged(choosedIndex, textList.get(choosedIndex));
                     }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (oldChoose != c && listener != null) {
-                    if (c >= 0 && c < navTextArray.length) {
-                        listener.onTouchingLetterChanged(navTextArray[c]);
-                        activedIndex = c;
-
+                if (oldChooseIndex != choosedIndex && onTouchingLetterChangedListener != null) {
+                    if (choosedIndex >= 0 && choosedIndex < textList.size()) {
+                        activedIndex = choosedIndex;
                         refreshTv();
-
                         invalidate();
+                        onTouchingLetterChangedListener.onTouchingLetterChanged(choosedIndex, textList.get(choosedIndex));
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                navActive = false;
+                mNavActive = false;
                 tvLetterOverlay.setVisibility(GONE);
                 activedIndex = -1;
                 invalidate();
@@ -176,13 +224,8 @@ public class LetterNavView extends View {
     }
 
     private void refreshTv() {
-        tvLetterOverlay.setText(navTextArray[activedIndex]);
-
-        if (navTextArray[activedIndex].length() <= 1) {
-            tvLetterOverlay.setTextSize(40);
-        } else {
-            tvLetterOverlay.setTextSize(20);
-        }
+        tvLetterOverlay.setText(textList.get(activedIndex));
+        tvLetterOverlay.setTextSize(overlyTextSize / textList.get(activedIndex).length());
     }
 
     @Override
@@ -190,11 +233,11 @@ public class LetterNavView extends View {
         return super.onTouchEvent(event);
     }
 
-    public void setOnTouchingLetterChangedListener(OnTouchingLetterChangedListener listener) {
+    public void setLetterChangeListener(LetterChangeListener listener) {
         this.onTouchingLetterChangedListener = listener;
     }
 
-    public interface OnTouchingLetterChangedListener {
-        void onTouchingLetterChanged(String s);
+    public interface LetterChangeListener {
+        void onTouchingLetterChanged(int index, String text);
     }
 }

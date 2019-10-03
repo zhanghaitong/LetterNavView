@@ -1,11 +1,12 @@
 package com.haitong.letternavviewdemo;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.widget.Toast;
-
 import com.haitong.letternavview.view.LetterNavView;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,11 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         LetterNavView letterNavView = findViewById(R.id.letter_container);
-        letterNavView.setOnTouchingLetterChangedListener(new LetterNavView.OnTouchingLetterChangedListener() {
-            @Override
-            public void onTouchingLetterChanged(String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
-            }
+        letterNavView.setNavTopTextList(Arrays.asList("定位", "热门"));
+        letterNavView.setNavBottomTextList(Arrays.asList("#"));
+        letterNavView.setLetterChangeListener((index, text) -> {
+
         });
     }
 }

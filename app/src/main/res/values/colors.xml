@@ -3,4 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="green">#40c60a</color>
+    <color name="green_dark">#298409</color>
+
+
+    <color name="common_bg">#f5f5f5</color>
+    <color name="common_bg_press">#a1a1a1</color>
+    <color name="common_line_normal">#eaeaea</color>
+    <color name="common_line">#DCEAEAEA</color>
+    <color name="common_text">#505050</color>
+
 </resources>
