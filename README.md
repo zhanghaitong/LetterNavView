@@ -1,10 +1,10 @@
 ## LetternavView —— Android右侧字母导航插件
 ![image](https://img.shields.io/badge/letterNavView-1.0.1-blue)
+
 LetternavView是一个快速实现Android右侧字母导航的自定义View。
 ## 效果预览
 
 ## 使用步骤
----
 Step1：在项目的build.gradle中引用
 ```gradle
 implementation 'com.haitong:letter_nav_view:1.0.1'
