@@ -1,9 +1,9 @@
 ## LetternavView —— Android右侧字母导航插件
 ![image](https://img.shields.io/badge/letterNavView-1.0.1-blue)
 LetternavView是一个快速实现Android右侧字母导航的自定义View。
-### 效果预览
----
-### 使用步骤
+## 效果预览
+
+## 使用步骤
 ---
 Step1：在项目的build.gradle中引用
 ```gradle
@@ -31,7 +31,7 @@ letterNavView.setLetterChangeListener(new LetterNavView.LetterChangeListener() {
     }
 });
 ```
-### 属性值说明
+## 属性值说明
 
 Attributes | format| describe | defaultValue
 ---|---|---|---
@@ -41,10 +41,10 @@ navTvTextColor |color | 导航栏字体颜色|#8c8c8c
 navTvTextSelectedColor | color| 选中字体颜色|#40c60a
 navBgColor | color| 导航栏默认背景|Color.TRANSPARENT
 navBgActiveColor | color| 导航栏激活状态（滑动时）背景|#40000000
-navPaddingLeft |integer | 导航栏paddingLeft
-navPaddingRight |integer | 导航栏paddingRight
-navPaddingTop |integer | 导航栏paddingTop
-navPaddingBottom | integer| 导航栏paddingBottom
+navPaddingLeft |integer | 导航栏paddingLeft|0dp
+navPaddingRight |integer | 导航栏paddingRight|0dp
+navPaddingTop |integer | 导航栏paddingTop|10dp
+navPaddingBottom | integer| 导航栏paddingBottom|10dp
 overlyTvWidth |integer | 预览TextView宽度|65dp
 overlyTvHeight |integer | 预览TextView高度|65dp
 overlyTextSize | integer| 预览TextView字体大小|12sp
