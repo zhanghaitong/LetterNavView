@@ -1,14 +1,21 @@
-![image](https://img.shields.io/badge/letterNavView-1.0.1-blue)
 ## LetternavView —— Android右侧字母导航插件
-LetternavView是一个快速实现Android右侧字母导航的自定义View。
-## 效果预览
+![image](https://img.shields.io/badge/letterNavView-1.0.1-blue)
 
-## 使用步骤
-Step1：在项目的build.gradle中引用
+LetternavView是一个快速实现Android右侧字母导航的自定义View。
+
+### 效果预览
+---
+
+
+
+### 使用步骤
+---
+* Step1：在项目的build.gradle中引用
+
 ```gradle
 implementation 'com.haitong:letter_nav_view:1.0.1'
 ```
-Step2: 在布局文件中添加：
+* Step2: 在布局文件中添加：
 
 ```xml
 <com.haitong.letternavview.view.LetterNavView
@@ -19,7 +26,7 @@ Step2: 在布局文件中添加：
         app:navPaddingBottom="30dp"
         app:overlyTextSize="12sp" />
 ```
-Step3: 设置监听
+* Step3: 设置监听
 
 ```java
 letterNavView.setLetterChangeListener(new LetterNavView.LetterChangeListener() {
@@ -30,8 +37,8 @@ letterNavView.setLetterChangeListener(new LetterNavView.LetterChangeListener() {
     }
 });
 ```
-## 属性值说明
-
+### 属性值说明
+---
 Attributes | format| describe | defaultValue
 ---|---|---|---
 navTvTextSize |integer | 导航栏字体大小|12sp
@@ -47,5 +54,11 @@ navPaddingBottom | integer| 导航栏paddingBottom|10dp
 overlyTvWidth |integer | 预览TextView宽度|65dp
 overlyTvHeight |integer | 预览TextView高度|65dp
 overlyTextSize | integer| 预览TextView字体大小|12sp
-overlyTextColor | color| 预览TextView字体颜色|
+overlyTextColor | color| 预览TextView字体颜色|Color.white
 overlyBgColor | color| 预览TextView背景颜色|#83000000
+
+### 致谢
+---
+本项目借鉴了jeanboydev的Android-CityList，在此表示感谢。
+
+该项目地址为：[https://github.com/jeanboydev/Android-CityList](https://github.com/jeanboydev/Android-CityList)
